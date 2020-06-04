@@ -4,212 +4,240 @@
 {% load gravatar %}
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>{% trans 'elearning' %} - {% block title %} {% endblock %}</title>
-    <link href="{% static 'styles/styles.css' %}" rel="stylesheet">
-    <link rel="manifest" href="{% static 'manifest.json' %}">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>{% trans 'elearning' %} - {% block title %} {% endblock %}</title>
+  <link href="{% static 'styles/styles.css' %}" rel="stylesheet">
+  <link rel="manifest" href="{% static 'manifest.json' %}">
 </head>
+
 <body class="flex flex-col min-h-screen">
   <nav class="flex items-center justify-between flex-wrap bg-teal-500 p-6">
     <div class="flex items-center flex-shrink-0 text-white mr-6">
-      <img alt="{% trans 'ele@rning' %}" width="30" title="{% trans 'ele@rning' %}" src="{% static 'images/pwa/icon-72x72.png' %}">
+      <img alt="{% trans 'ele@rning' %}" width="30" title="{% trans 'ele@rning' %}"
+        src="{% static 'images/pwa/icon-72x72.png' %}">
       <span class="font-semibold text-xl tracking-tight">{% trans 'ele@rning' %}</span>
     </div>
     <div class="block lg:hidden">
-      <button class="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white">
-        <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
+      <button
+        class="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white">
+        <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <title>Menu</title>
+          <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+        </svg>
       </button>
     </div>
     <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
       <div class="text-sm lg:flex-grow">
-        <a href="{% url 'course_list' %}" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+        <a href="{% url 'course_list' %}"
+          class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
           {% trans 'Learn' %}
         </a>
-        <a href="{% url 'videos_list' %}" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+        <a href="{% url 'videos_list' %}"
+          class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
           {% trans 'Videos' %}
         </a>
         {% if request.user.is_authenticated and request.user.is_student %}
-          <a href="{% url 'student_quiz_list' %}" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-            {% trans 'My Quizzes' %}
-          </a>
-          <a href="{% url 'student_course_list' %}" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-            {% trans 'My Courses' %}
-          </a>
+        <a href="{% url 'student_quiz_list' %}"
+          class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+          {% trans 'My Quizzes' %}
+        </a>
+        <a href="{% url 'student_course_list' %}"
+          class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+          {% trans 'My Courses' %}
+        </a>
         {% endif %}
         {% if request.user.is_authenticated and request.user.is_teacher or request.user.is_staff %}
-          <a href="{% url 'manage_course_list' %}" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-            {% trans 'Manage courses' %}
-          </a>
-          <a href="{% url 'teacher_quiz_change_list' %}" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-            {% trans 'Manage quizzes' %}
-          </a>
+        <a href="{% url 'manage_course_list' %}"
+          class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+          {% trans 'Manage courses' %}
+        </a>
+        <a href="{% url 'teacher_quiz_change_list' %}"
+          class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+          {% trans 'Manage quizzes' %}
+        </a>
         {% endif %}
       </div>
       <div>
         {% if request.user.is_authenticated %}
-          <div class="relative group mx-1 px-1 group inline-block">
-            <a href="#" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-              {% trans 'My account' %}
-              <svg class="ml-2 h-6 w-6 text-white inline-block" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M15.3 9.3a1 1 0 0 1 1.4 1.4l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 0 1 1.4-1.4l3.3 3.29 3.3-3.3z" />
-              </svg>
-            </a>
-            <ul class="absolute right-0 top-0 mt-8 p-2 rounded-lg shadow-lg bg-white z-10 hidden group-hover:block">
-              <svg class="block fill-current text-white w-4 h-4 absolute right-0 top-0 mr-6 -mt-3 z-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path></svg>
-              <li class="p-1">
-                <div class="flex items-center px-6 py-4">
-                  <img class="h-10 w-10 rounded-full flex-no-shrink" src="{{ request.user|gravatar }}" alt="{{ request.user.username }}" />
-                  <div class="ml-4">
-                    <p class="font-semibold text-gray-900 leading-none">{{ request.user.username }}</p>
-                    <p><a href="{% url 'user_detail' request.user.username %}" class="text-sm text-gray-600 leading-none hover:underline">{% trans 'View Profile' %}</a></p>
-                  </div>
+        <div class="relative group mx-1 px-1 group inline-block">
+          <a href="#" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+            {% trans 'My account' %}
+            <svg class="ml-2 h-6 w-6 text-white inline-block" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M15.3 9.3a1 1 0 0 1 1.4 1.4l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 0 1 1.4-1.4l3.3 3.29 3.3-3.3z" />
+            </svg>
+          </a>
+          <ul class="absolute right-0 top-0 mt-8 p-2 rounded-lg shadow-lg bg-white z-10 hidden group-hover:block">
+            <svg class="block fill-current text-white w-4 h-4 absolute right-0 top-0 mr-6 -mt-3 z-0"
+              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+            </svg>
+            <li class="p-1">
+              <div class="flex items-center px-6 py-4">
+                <img class="h-10 w-10 rounded-full flex-no-shrink" src="{{ request.user|gravatar }}"
+                  alt="{{ request.user.username }}" />
+                <div class="ml-4">
+                  <p class="font-semibold text-gray-900 leading-none">{{ request.user.username }}</p>
+                  <p><a href="{% url 'user_detail' request.user.username %}"
+                      class="text-sm text-gray-600 leading-none hover:underline">{% trans 'View Profile' %}</a></p>
                 </div>
-              </li>
-              <li class="p-1 whitespace-no-wrap rounded-full text-sm md:text-base text-gray-600 hover:text-gray-800 hover:bg-gray-100">
-                  <a class="px-2 py-1" href="{% url 'notifications_list' %}">
-                      <span class="">{% trans 'Notifications' %}</span>
-                  </a>
-              </li>
-              <li class="p-1 whitespace-no-wrap rounded-full text-sm md:text-base text-gray-600 hover:text-gray-800 hover:bg-gray-100">
-                  <a class="px-2 py-1" href="{% url 'messages_list' %}">
-                      <span class="">{% trans 'Messages' %}</span>
-                  </a>
-              </li>
-              <li class="p-1 whitespace-no-wrap rounded-full text-sm md:text-base text-gray-600 hover:text-gray-800 hover:bg-gray-100">
-                  <a class="px-2 py-1" href="{% url 'student_recommendation_list' %}">
-                      <span class="">{% trans 'My recommended courses' %}</span>
-                  </a>
-              </li>
-              <li class="p-1 whitespace-no-wrap rounded-full text-sm md:text-base text-gray-600 hover:text-gray-800 hover:bg-gray-100">
-                  <a class="px-2 py-1" href="{% url 'edit' %}">
-                      <span class="">{% trans 'Edit account' %}</span>
-                  </a>
-              </li>
-            </ul>
-          </div>
+              </div>
+            </li>
+            <li
+              class="p-1 whitespace-no-wrap rounded-full text-sm md:text-base text-gray-600 hover:text-gray-800 hover:bg-gray-100">
+              <a class="px-2 py-1" href="{% url 'notifications_list' %}">
+                <span class="">{% trans 'Notifications' %}</span>
+              </a>
+            </li>
+            <li
+              class="p-1 whitespace-no-wrap rounded-full text-sm md:text-base text-gray-600 hover:text-gray-800 hover:bg-gray-100">
+              <a class="px-2 py-1" href="{% url 'messages_list' %}">
+                <span class="">{% trans 'Messages' %}</span>
+              </a>
+            </li>
+            <li
+              class="p-1 whitespace-no-wrap rounded-full text-sm md:text-base text-gray-600 hover:text-gray-800 hover:bg-gray-100">
+              <a class="px-2 py-1" href="{% url 'student_recommendation_list' %}">
+                <span class="">{% trans 'My recommended courses' %}</span>
+              </a>
+            </li>
+            <li
+              class="p-1 whitespace-no-wrap rounded-full text-sm md:text-base text-gray-600 hover:text-gray-800 hover:bg-gray-100">
+              <a class="px-2 py-1" href="{% url 'edit' %}">
+                <span class="">{% trans 'Edit account' %}</span>
+              </a>
+            </li>
+          </ul>
+        </div>
         {% endif %}
         {% if request.user.is_authenticated %}
-          <a href="{% url 'logout' %}" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">{% trans 'Logout' %}</a>
+        <a href="{% url 'logout' %}"
+          class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">{% trans 'Logout' %}</a>
         {% else %}
-          <a href="{% url 'login' %}" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">{% trans 'Login' %}</a>
-          <a href="{% url 'signup' %}" class="inline-block text-sm px-4 ml-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">{% trans 'Register' %}</a>
+        <a href="{% url 'login' %}"
+          class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">{% trans 'Login' %}</a>
+        <a href="{% url 'signup' %}"
+          class="inline-block text-sm px-4 ml-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">{% trans 'Register' %}</a>
         {% endif %}
       </div>
     </div>
   </nav>
-    <main id="content" class="flex-grow">
+  <main id="content" class="flex-grow">
 
-        {% if messages %}
-            <div>
-                {% for message in messages %}
-                <div {% if message.tags %} class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative alert alert-{{ message.tags }} alert-dismissible" {% endif %} role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    {{ message }}
-                </div>
-                {% endfor %}
-            </div>
-        {% endif %}
-
-        {% block content %}
-        {% endblock %}
-
-      <!-- Notif offline -->
-      <div
-        class="notification"
-        id="notification"
-        aria-live="assertive"
-        aria-relevant="text"
-        hidden>
+    {% if messages %}
+    <div>
+      {% for message in messages %}
+      <div {% if message.tags %}
+        class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative alert alert-{{ message.tags }} alert-dismissible"
+        {% endif %} role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>
+        {{ message }}
       </div>
-    </main>
+      {% endfor %}
+    </div>
+    {% endif %}
 
-    <footer class="bg-white py-8 w-full">
-      <div class="container mx-auto px-8">
-          <div class="table w-full">
-              <div class="block text-center sm:table-cell">
-                  <p class="uppercase text-grey text-sm sm:mb-6">{% trans 'Links' %}</p>
-                  <ul class="list-reset text-xs mb-6">
-                      <li class="mt-2 inline-block mr-2 sm:block sm:mr-0">
-                          <a href="#" class="text-grey hover:text-grey-dark">{% trans 'FAQ' %}</a>
-                      </li>
-                      <li class="mt-2 inline-block mr-2 sm:block sm:mr-0">
-                          <a href="#" class="text-grey hover:text-grey-dark">{% trans 'Help' %}</a>
-                      </li>
-                      <li class="mt-2 inline-block mr-2 sm:block sm:mr-0">
-                          <a href="#" class="text-grey hover:text-grey-dark">{% trans 'Support' %}</a>
-                      </li>
-                  </ul>
-              </div>
-              <div class="block text-center sm:table-cell">
-                  <p class="uppercase text-grey text-sm sm:mb-6">{% trans 'Legal' %}</p>
-                  <ul class="list-reset text-xs mb-6">
-                    {% get_flatpages as flatpages %}
-                    {% for page in flatpages %}
-                      <li class="mt-2 inline-block mr-2 sm:block sm:mr-0">
-                          <a href="{{ page.url }}" class="text-grey hover:text-grey-dark">{{ page.title }}</a>
-                      </li>
-                    {% endfor %}
-                  </ul>
-              </div>
-              <div class="block text-center sm:table-cell">
-                  <p class="uppercase text-grey text-sm sm:mb-6">{% trans 'Social' %}</p>
-                  <ul class="list-reset text-xs mb-6">
-                      <li class="mt-2 inline-block mr-2 sm:block sm:mr-0">
-                          <a href="https://www.linkedin.com/in/delitamakanda/" target="_blank" class="text-grey hover:text-grey-dark">{% trans 'Linkedin' %}</a>
-                      </li>
-                      <li class="mt-2 inline-block mr-2 sm:block sm:mr-0">
-                          <a href="https://twitter.com/delitamakanda" target="_blank"  class="text-grey hover:text-grey-dark">{% trans 'Twitter' %}</a>
-                      </li>
-                  </ul>
-              </div>
-              <div class="block text-center sm:table-cell">
-                  <p class="uppercase text-grey text-sm sm:mb-6">{% trans 'Company' %}</p>
-                  <ul class="list-reset text-xs mb-6">
-                      <li class="mt-2 inline-block mr-2 sm:block sm:mr-0">
-                          <a href="https://blog-myelearning.netlify.com" target="_blank" class="text-grey hover:text-grey-dark">{% trans 'Official Blog' %}</a>
-                      </li>
-                      <li class="mt-2 inline-block mr-2 sm:block sm:mr-0">
-                          <a href="{% url 'about_company' %}" class="text-grey hover:text-grey-dark">{% trans 'About Us' %}</a>
-                      </li>
-                      <li class="mt-2 inline-block mr-2 sm:block sm:mr-0">
-                          <a href="{% url 'contact_us' %}" class="text-grey hover:text-grey-dark">{% trans 'Contact' %}</a>
-                      </li>
-                  </ul>
-              </div>
-          </div>
-      </div>
-    </footer>
+    {% block content %}
+    {% endblock %}
 
-    <section id="footer">
-      <div class="flex justify-center border-t-2 py-2">
-        <div class="text-center">
-        {% trans '&copy; elearning 2017 -' %} <span id="copyright"></span>
+    <!-- Notif offline -->
+    <div class="notification" id="notification" aria-live="assertive" aria-relevant="text" hidden>
+    </div>
+  </main>
+
+  <footer class="bg-white py-8 w-full">
+    <div class="container mx-auto px-8">
+      <div class="table w-full">
+        <div class="block text-center sm:table-cell">
+          <p class="uppercase text-grey text-sm sm:mb-6">{% trans 'Links' %}</p>
+          <ul class="list-reset text-xs mb-6">
+            <li class="mt-2 inline-block mr-2 sm:block sm:mr-0">
+              <a href="#" class="text-grey hover:text-grey-dark">{% trans 'FAQ' %}</a>
+            </li>
+            <li class="mt-2 inline-block mr-2 sm:block sm:mr-0">
+              <a href="#" class="text-grey hover:text-grey-dark">{% trans 'Help' %}</a>
+            </li>
+            <li class="mt-2 inline-block mr-2 sm:block sm:mr-0">
+              <a href="#" class="text-grey hover:text-grey-dark">{% trans 'Support' %}</a>
+            </li>
+          </ul>
+        </div>
+        <div class="block text-center sm:table-cell">
+          <p class="uppercase text-grey text-sm sm:mb-6">{% trans 'Legal' %}</p>
+          <ul class="list-reset text-xs mb-6">
+            {% get_flatpages as flatpages %}
+            {% for page in flatpages %}
+            <li class="mt-2 inline-block mr-2 sm:block sm:mr-0">
+              <a href="{{ page.url }}" class="text-grey hover:text-grey-dark">{{ page.title }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="block text-center sm:table-cell">
+          <p class="uppercase text-grey text-sm sm:mb-6">{% trans 'Social' %}</p>
+          <ul class="list-reset text-xs mb-6">
+            <li class="mt-2 inline-block mr-2 sm:block sm:mr-0">
+              <a href="https://www.linkedin.com/in/sagarrathi/" target="_blank"
+                class="text-grey hover:text-grey-dark">{% trans 'Linkedin' %}</a>
+            </li>
+            <li class="mt-2 inline-block mr-2 sm:block sm:mr-0">
+              <a href="https://twitter.com/sagarrathi" target="_blank"
+                class="text-grey hover:text-grey-dark">{% trans 'Twitter' %}</a>
+            </li>
+          </ul>
+        </div>
+        <div class="block text-center sm:table-cell">
+          <p class="uppercase text-grey text-sm sm:mb-6">{% trans 'Company' %}</p>
+          <ul class="list-reset text-xs mb-6">
+            <li class="mt-2 inline-block mr-2 sm:block sm:mr-0">
+              <a href="https://sagarrathi.com" target="_blank"
+                class="text-grey hover:text-grey-dark">{% trans 'Official Blog' %}</a>
+            </li>
+            <li class="mt-2 inline-block mr-2 sm:block sm:mr-0">
+              <a href="{% url 'about_company' %}" class="text-grey hover:text-grey-dark">{% trans 'About Us' %}</a>
+            </li>
+            <li class="mt-2 inline-block mr-2 sm:block sm:mr-0">
+              <a href="{% url 'contact_us' %}" class="text-grey hover:text-grey-dark">{% trans 'Contact' %}</a>
+            </li>
+          </ul>
         </div>
       </div>
-    </section>
+    </div>
+  </footer>
 
-    <script src="{% static 'scripts/libs/jquery.min.js' %}"></script>
-    <script src="{% static 'scripts/main.min.js' %}"></script>
-    <script>
-    $(document).ready(function() {
-        {% block domready %}
-        {% endblock %}
+  <section id="footer">
+    <div class="flex justify-center border-t-2 py-2">
+      <div class="text-center">
+        {% trans '&copy; Asamkhyeya Edutech Pvt Ltd 2016 -' %} <span id="copyright"></span>
+      </div>
+    </div>
+  </section>
+
+  <script src="{% static 'scripts/libs/jquery.min.js' %}"></script>
+  <script src="{% static 'scripts/main.min.js' %}"></script>
+  <script>
+    $(document).ready(function () {
+      {% block domready %}
+      {% endblock %}
     });
 
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register("{% url 'sw.js' %}", { scope: '/static/' }).then(function(res) {
-            console.log("sw installed !" + res.scope);
-        }).catch(function(error) {
-            console.log("sw failed" + error);
-        });
+      navigator.serviceWorker.register("{% url 'sw.js' %}", { scope: '/static/' }).then(function (res) {
+        console.log("sw installed !" + res.scope);
+      }).catch(function (error) {
+        console.log("sw failed" + error);
+      });
     }
 
     var copyrightDate = new Date().getFullYear();
     var footerDiv = document.getElementById("copyright");
     footerDiv.innerHTML = copyrightDate;
-    </script>
+  </script>
 </body>
+
 </html>

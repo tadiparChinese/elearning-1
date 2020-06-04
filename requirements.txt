@@ -19,10 +19,12 @@ django-storages
 boto3
 django-widget-tweaks==1.4.3
 google-api-python-client==1.7.4
-numpy==1.16.1
-pandas==0.24.1
-scikit-learn==0.20.3
-scipy==1.2.1
+numpy==1.18.4
+#pandas==0.24.1
+pandas
+scikit-learn==0.23.1
+#scipy==1.2.1
+scipy
 sklearn==0.0
 django-webpack-loader==0.6.0
 django-cors-headers==3.0.2
@@ -33,3 +35,6 @@ mistune==0.8.4
 pygments==2.4.2
 celery==4.4.1
 redis==3.4.1
+
+
+#using venv5
